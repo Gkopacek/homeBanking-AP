@@ -13,7 +13,7 @@ public class HomebankingApplication {
 		SpringApplication.run(HomebankingApplication.class, args);
 	}
 @Bean
-public CommandLineRunner initdata(){
+public CommandLineRunner initData(){
 		return (args -> {
 			//Client client1 = new Client(1,"Guillermo","Kopacek","kopacek5@gmail.com");
 		});
