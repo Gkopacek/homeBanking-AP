@@ -6,21 +6,21 @@ import javax.persistence.Id;
 @Entity
 public class Client {
     @Id
-    private Integer id;
+    private long id;
     private String firstName;
     private String lastName;
     private String email;
 
     public Client(){}
 
-    public Client(Integer id, String firstName, String lastName, String email) {
+    public Client(long id, String firstName, String lastName, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
     }
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
