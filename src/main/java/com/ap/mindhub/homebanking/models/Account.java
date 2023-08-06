@@ -2,10 +2,7 @@ package com.ap.mindhub.homebanking.models;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
@@ -14,6 +11,10 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private double id;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="client_id")
+    private Client client;
 
     private String number;
 
@@ -55,6 +56,14 @@ public class Account {
 
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    public Client getClient(){
+        return client;
+    }
+
+    public void setClient(Client client){
+        this.client = client;
     }
 }
 
