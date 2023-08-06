@@ -1,11 +1,17 @@
 package com.ap.mindhub.homebanking.models;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Client {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    @GenericGenerator(name = "native", strategy = "native")
     private long id;
     private String firstName;
     private String lastName;
@@ -13,8 +19,7 @@ public class Client {
 
     public Client(){}
 
-    public Client(long id, String firstName, String lastName, String email) {
-        this.id = id;
+    public Client(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -24,9 +29,6 @@ public class Client {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getFirstName() {
         return firstName;
