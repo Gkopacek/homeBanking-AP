@@ -56,5 +56,14 @@ public class Client {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public Set<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void addAccount(Account account) {
+        account.setClient(this);
+        accounts.add(account);
+    }
 }
 
