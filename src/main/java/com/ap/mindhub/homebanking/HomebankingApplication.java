@@ -32,12 +32,14 @@ public CommandLineRunner initData(ClientRepository clientRepository, AccountRepo
 			client1.addAccount(accountMelba2);
 
 			Client client2 = new Client("Guillermo","Kopacek","kopacek5@gmail.com");
-
+			Account accountGuillermo1 = new Account("VIN003",actualdate1,1000000);
+			client2.addAccount(accountGuillermo1);
 
 			clientRepository.save(client1);
 			accountRepository.save(accountMelba1);
 			accountRepository.save(accountMelba2);
 			clientRepository.save(client2);
+			accountRepository.save(accountGuillermo1);
 		});
 	}
 
