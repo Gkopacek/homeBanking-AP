@@ -10,7 +10,7 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    private double id;
+    private long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="client_id")
@@ -30,7 +30,7 @@ public class Account {
         this.balance = balance;
     }
 
-    public double getId(){
+    public long getId(){
         return id;
     }
 
