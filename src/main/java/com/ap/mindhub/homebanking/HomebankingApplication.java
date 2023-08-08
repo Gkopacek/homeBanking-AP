@@ -28,17 +28,17 @@ public CommandLineRunner initData(ClientRepository clientRepository, AccountRepo
 			Account accountMelba1 = new Account("VIN001",actualdate1,5000);
 			Account accountMelba2 = new Account("VIN002",tomorrow,7500);
 
-			client1.addAccount(accountMelba1);
-			client1.addAccount(accountMelba2);
-
 			Client client2 = new Client("Guillermo","Kopacek","kopacek5@gmail.com");
 			Account accountGuillermo1 = new Account("VIN003",actualdate1,1000000);
-			client2.addAccount(accountGuillermo1);
 
 			clientRepository.save(client1);
+			client1.addAccount(accountMelba1);
+			client1.addAccount(accountMelba2);
 			accountRepository.save(accountMelba1);
 			accountRepository.save(accountMelba2);
+
 			clientRepository.save(client2);
+			client2.addAccount(accountGuillermo1);
 			accountRepository.save(accountGuillermo1);
 		});
 	}
