@@ -1,5 +1,6 @@
 package com.ap.mindhub.homebanking.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -57,7 +58,7 @@ public class Account {
     public void setBalance(double balance) {
         this.balance = balance;
     }
-
+    @JsonIgnore
     public Client getClient(){
         return client;
     }
