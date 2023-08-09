@@ -15,6 +15,7 @@ public class ClientDTO {
     private String lastName;
     private String email;
 
+    Set<Account> accounts = new HashSet<>();
 
     public ClientDTO(Client client) {
 
@@ -25,6 +26,8 @@ public class ClientDTO {
         this.lastName = client.getLastName();
 
         this.email = client.getEmail();
+
+        this.accounts = client.getAccounts();
 
     }
 
@@ -42,5 +45,9 @@ public class ClientDTO {
 
     public String getEmail() {
         return email;
+    }
+
+    public Set<Account> getAccounts() {
+        return accounts;
     }
 }
