@@ -26,7 +26,7 @@ public class Account {
     private double balance;
 
 
-    @OneToMany(mappedBy="transaction", fetch=FetchType.EAGER)
+    @OneToMany(mappedBy="account", fetch=FetchType.EAGER)
     Set<Transaction> transactions = new HashSet<>();
 
 

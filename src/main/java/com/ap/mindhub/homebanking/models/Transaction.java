@@ -1,9 +1,9 @@
 package com.ap.mindhub.homebanking.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -26,7 +26,7 @@ public class Transaction {
 
     Transaction(){}
 
-    Transaction(double amount, String description, LocalDateTime date, TransactionType type){
+    public Transaction(double amount, String description, LocalDateTime date, TransactionType type){
         this.amount = amount;
         this.description = description;
         this.date = date;
@@ -69,6 +69,8 @@ public class Transaction {
         this.type = type;
     }
 
+
+    @JsonIgnore
     public Account getaccount(){
         return account;
     }
