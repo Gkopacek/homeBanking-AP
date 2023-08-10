@@ -15,7 +15,7 @@ public class ClientDTO {
     private String lastName;
     private String email;
 
-    Set<Account> accounts = new HashSet<>();
+   private Set<Account> accounts = new HashSet<>();
 
     public ClientDTO(Client client) {
 
