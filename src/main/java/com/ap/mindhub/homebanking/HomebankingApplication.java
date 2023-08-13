@@ -1,11 +1,9 @@
 package com.ap.mindhub.homebanking;
 
-import com.ap.mindhub.homebanking.models.Account;
-import com.ap.mindhub.homebanking.models.Client;
-import com.ap.mindhub.homebanking.models.Transaction;
-import com.ap.mindhub.homebanking.models.TransactionType;
+import com.ap.mindhub.homebanking.models.*;
 import com.ap.mindhub.homebanking.repositories.AccountRepository;
 import com.ap.mindhub.homebanking.repositories.ClientRepository;
+import com.ap.mindhub.homebanking.repositories.LoanRepository;
 import com.ap.mindhub.homebanking.repositories.TransactionRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -14,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @SpringBootApplication
 public class HomebankingApplication {
@@ -22,7 +21,7 @@ public class HomebankingApplication {
 		SpringApplication.run(HomebankingApplication.class, args);
 	}
 @Bean
-public CommandLineRunner initData(ClientRepository clientRepository, AccountRepository accountRepository, TransactionRepository transactionRepository){
+public CommandLineRunner initData(ClientRepository clientRepository, AccountRepository accountRepository, TransactionRepository transactionRepository, LoanRepository loanRepository){
 		return (args -> {
 
 			Client client1 = new Client("Melba","Morel","melba@mindhub.com");
@@ -44,6 +43,23 @@ public CommandLineRunner initData(ClientRepository clientRepository, AccountRepo
 			Transaction transactionMelba3 = new Transaction(-4000, "gastos varios", actualDatetime1, TransactionType.DEBIT);
 
 			Transaction transactionGuillermo1 = new Transaction(100000, "deposito sueldo", tomorrowDateTime, TransactionType.CREDIT);
+
+			List<Integer> hipotecarioPayments = List.of(12,24,36,48,60);
+			List<Integer> personalPayments = List.of(6,12,24);
+			List<Integer> AutomotrizPayments = List.of(6,12,24,36);
+
+			//Se Crean los tipos de prestamos de prueba
+			Loan LoanHipotecario = new Loan("Hipotecario", 500000, hipotecarioPayments);
+			Loan LoanPersonal = new Loan("Personal", 100000, personalPayments);
+			Loan LoanAutomotriz = new Loan("Automotriz", 300000, AutomotrizPayments);
+
+			//Se persisten los objetos creados en la base de datos H2 que vive en memoria
+
+
+			loanRepository.save(LoanHipotecario);
+			loanRepository.save(LoanPersonal);
+			loanRepository.save(LoanAutomotriz);
+
 
 			clientRepository.save(client1);
 			client1.addAccount(accountMelba1);
