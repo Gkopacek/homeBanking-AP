@@ -14,7 +14,7 @@ public class TransactionDTO {
     private LocalDateTime date;
     private TransactionType type;
 
-    TransactionDTO(Transaction transaction){
+    public TransactionDTO(Transaction transaction){
         this.id = transaction.getId();
         this.account = transaction.getaccount();
         this.amount = transaction.getAmount();

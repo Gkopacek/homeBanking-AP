@@ -16,7 +16,7 @@ import static java.util.stream.Collectors.toList;
 @RestController
 public class ClientController {
     @Autowired
-    ClientRepository clientRepository;
+    public ClientRepository clientRepository;
 
     //Definir un método público que retorne List<Client> (puedes llamarlo getClients)
     //
@@ -27,7 +27,6 @@ public class ClientController {
     }
 
     @RequestMapping("/clients/{id}")
-
     public ClientDTO getClient(@PathVariable Long id){
         return clientRepository.findById(id).map(client -> new ClientDTO(client)).orElse(null);
     }

@@ -24,7 +24,7 @@ public class Transaction {
 
 
 
-    Transaction(){}
+   public Transaction(){}
 
     public Transaction(double amount, String description, LocalDateTime date, TransactionType type){
         this.amount = amount;
