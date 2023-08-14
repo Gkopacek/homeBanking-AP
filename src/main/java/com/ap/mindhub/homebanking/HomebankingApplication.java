@@ -1,10 +1,7 @@
 package com.ap.mindhub.homebanking;
 
 import com.ap.mindhub.homebanking.models.*;
-import com.ap.mindhub.homebanking.repositories.AccountRepository;
-import com.ap.mindhub.homebanking.repositories.ClientRepository;
-import com.ap.mindhub.homebanking.repositories.LoanRepository;
-import com.ap.mindhub.homebanking.repositories.TransactionRepository;
+import com.ap.mindhub.homebanking.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,9 +18,9 @@ public class HomebankingApplication {
 		SpringApplication.run(HomebankingApplication.class, args);
 	}
 @Bean
-public CommandLineRunner initData(ClientRepository clientRepository, AccountRepository accountRepository, TransactionRepository transactionRepository, LoanRepository loanRepository){
+public CommandLineRunner initData(ClientRepository clientRepository, AccountRepository accountRepository, TransactionRepository transactionRepository, LoanRepository loanRepository, ClientLoanRepository clientLoanRepository){
 		return (args -> {
-
+			//Se crean los clientes y las cuentas de prueba
 			Client client1 = new Client("Melba","Morel","melba@mindhub.com");
 
 			LocalDate actualdate1 = LocalDate.now();
@@ -39,26 +36,36 @@ public CommandLineRunner initData(ClientRepository clientRepository, AccountRepo
 			LocalDateTime tomorrowDateTime = actualDatetime1.plusDays(32);
 			Transaction transactionMelba1 = new Transaction(-300,"Compra en el chino",actualDatetime1, TransactionType.DEBIT);
 
+			//Se crean las transacciones de prueba
 			Transaction transactionMelba2 = new Transaction(4000, "deposito suledo", actualDatetime1, TransactionType.CREDIT);
 			Transaction transactionMelba3 = new Transaction(-4000, "gastos varios", actualDatetime1, TransactionType.DEBIT);
 
 			Transaction transactionGuillermo1 = new Transaction(100000, "deposito sueldo", tomorrowDateTime, TransactionType.CREDIT);
 
+			//Se crean la lista de enteros para colocar en payments
 			List<Integer> hipotecarioPayments = List.of(12,24,36,48,60);
 			List<Integer> personalPayments = List.of(6,12,24);
 			List<Integer> AutomotrizPayments = List.of(6,12,24,36);
 
 			//Se Crean los tipos de prestamos de prueba
-			Loan LoanHipotecario = new Loan("Hipotecario", 500000, hipotecarioPayments);
-			Loan LoanPersonal = new Loan("Personal", 100000, personalPayments);
-			Loan LoanAutomotriz = new Loan("Automotriz", 300000, AutomotrizPayments);
+			Loan loanHipotecario = new Loan("Hipotecario", 500000, hipotecarioPayments);
+			Loan loanPersonal = new Loan("Personal", 100000, personalPayments);
+			Loan loanAutomotriz = new Loan("Automotriz", 300000, AutomotrizPayments);
+
+
+			ClientLoan loanMelba1 =  new ClientLoan(400000, 60, client1, loanHipotecario);
+
+			//Préstamo Personal, 50.000, 12 cuotas
+			ClientLoan loanMelba2 =  new ClientLoan(50000,12,client1,loanPersonal);
+
+			//Préstamo Personal, 100.000, 24 cuotas
+			ClientLoan loanGuillermo1 = new ClientLoan(100000, 24, client2, loanPersonal);
+
+			//Préstamo Automotriz, 200.000, 36 cuotas
+			ClientLoan loanGuillermo2 = new ClientLoan(200000, 36, client2, loanAutomotriz);
 
 			//Se persisten los objetos creados en la base de datos H2 que vive en memoria
 
-
-			loanRepository.save(LoanHipotecario);
-			loanRepository.save(LoanPersonal);
-			loanRepository.save(LoanAutomotriz);
 
 
 			clientRepository.save(client1);
@@ -83,6 +90,22 @@ public CommandLineRunner initData(ClientRepository clientRepository, AccountRepo
 			accountRepository.save(accountGuillermo1);
 			accountGuillermo1.addTransaction(transactionGuillermo1);
 			transactionRepository.save(transactionGuillermo1);
+
+			loanRepository.save(loanHipotecario);
+			loanRepository.save(loanPersonal);
+			loanRepository.save(loanAutomotriz);
+
+
+			client1.addClientLoan(loanMelba1);
+			clientLoanRepository.save(loanMelba1);
+			client1.addClientLoan(loanMelba2);
+			clientLoanRepository.save(loanMelba2);
+
+			client2.addClientLoan(loanGuillermo1);
+			clientLoanRepository.save(loanGuillermo1);
+			client2.addClientLoan(loanGuillermo2);
+			clientLoanRepository.save(loanGuillermo2);
+
 		});
 	}
 
