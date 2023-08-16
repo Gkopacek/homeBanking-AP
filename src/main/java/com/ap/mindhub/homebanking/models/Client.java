@@ -20,6 +20,8 @@ public class Client {
     private Set<ClientLoan> clientLoans = new HashSet<>();
 
 
+
+
     private String firstName;
     private String lastName;
     private String email;
@@ -69,6 +71,7 @@ public class Client {
         account.setClient(this);
         accounts.add(account);
     }
+
 
     public Set<ClientLoan> getClientLoan() {
         return clientLoans;

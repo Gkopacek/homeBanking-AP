@@ -1,12 +1,10 @@
 package com.ap.mindhub.homebanking.dtos;
-
 import com.ap.mindhub.homebanking.models.Account;
 import com.ap.mindhub.homebanking.models.Client;
-
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+
 
 public class ClientDTO {
 
@@ -16,6 +14,8 @@ public class ClientDTO {
     private String email;
 
    private Set<Account> accounts = new HashSet<>();
+
+   private Set<ClientLoanDTO> loans = new HashSet<>();
 
     public ClientDTO(Client client) {
 
@@ -28,6 +28,8 @@ public class ClientDTO {
         this.email = client.getEmail();
 
         this.accounts = client.getAccounts();
+
+       this.loans = client.getClientLoan().stream().map(element-> new ClientLoanDTO(element)).collect(Collectors.toSet());
 
     }
 
@@ -49,5 +51,9 @@ public class ClientDTO {
 
     public Set<Account> getAccounts() {
         return accounts;
+    }
+
+    public Set<ClientLoanDTO> getLoans() {
+        return loans;
     }
 }
