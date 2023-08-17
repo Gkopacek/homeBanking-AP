@@ -71,13 +71,13 @@ public CommandLineRunner initData(ClientRepository clientRepository,
 			ClientLoan loanGuillermo2 = new ClientLoan(200000, 36, client2, loanAutomotriz);
 
 			//Creando tarjeta  GOLD  para Melba Morell
-			Card debitCardGoldMelba1 = new Card(client1,CardType.DEBIT,"0912 3487 6501 1276",150,fiveYearsDate, actualdate1, CardColor.GOLD);
+			Card debitCardGoldMelba1 = new Card(client1,CardType.DEBIT,"0912 3487 6501 1276",150,LocalDate.now().plusYears(5), LocalDate.now(), CardColor.GOLD);
 
 			//Creando tarjeta  TITANIUM  para Melba Morell
-			Card creditCardTitaniumMelba1 = new Card(client1,CardType.CREDIT,"1234 0987 7601 4589", 315, fiveYearsDate, actualdate1, CardColor.TITANIUM);
+			Card creditCardTitaniumMelba1 = new Card(client1,CardType.CREDIT,"1234 0987 7601 4589", 315, LocalDate.now().plusYears(5), LocalDate.now(), CardColor.TITANIUM);
 
 			//Creando tarjeta  SILVER  para el segundo cliente
-			Card creditCardSilverGuille1 = new Card(client2, CardType.CREDIT,"7685 9450 9123 0032", 567, fiveYearsDate, actualdate1, CardColor.SILVER);
+			Card creditCardSilverGuille1 = new Card(client2, CardType.CREDIT,"7685 9450 9123 0032", 567, LocalDate.now().plusYears(5), LocalDate.now(), CardColor.SILVER);
 
 			//Se persisten los objetos creados en la base de datos H2 que vive en memoria
 

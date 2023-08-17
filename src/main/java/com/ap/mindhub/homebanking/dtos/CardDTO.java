@@ -28,7 +28,7 @@ public class CardDTO {
         this.number = card.getNumber();
         this.cvv = card.getCvv();
         this.fromDate = card.getFromDate();
-        this.thruDate = card.getTruDate();
+        this.thruDate = card.getThruDate();
     }
 
     public long getId() {
@@ -59,7 +59,7 @@ public class CardDTO {
         return fromDate;
     }
 
-    public LocalDate getTruDate() {
+    public LocalDate getThruDate() {
         return thruDate;
     }
 }

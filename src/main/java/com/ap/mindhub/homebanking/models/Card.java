@@ -4,7 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+
 
 @Entity
 public class Card {
@@ -73,7 +73,7 @@ public class Card {
         this.cvv = cvv;
     }
 
-    public LocalDate getTruDate() {
+    public LocalDate getThruDate() {
         return thruDate;
     }
 
