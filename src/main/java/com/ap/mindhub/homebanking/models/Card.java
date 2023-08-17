@@ -37,6 +37,10 @@ public class Card {
         this.color = color;
     }
 
+    public long getId() {
+        return id;
+    }
+
     public String getCardHolder() {
         return cardHolder;
     }
@@ -69,7 +73,7 @@ public class Card {
         this.cvv = cvv;
     }
 
-    public LocalDate getThruDate() {
+    public LocalDate getTruDate() {
         return thruDate;
     }
 
