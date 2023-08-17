@@ -2,10 +2,8 @@ package com.ap.mindhub.homebanking.models;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,21 +13,28 @@ public class Card {
     @GenericGenerator(name = "native", strategy = "native")
     private long id;
     private  String cardHolder;
-    private TransactionType type;
+    private CardType type;
     private String number;
     private int cvv;
-    private LocalDateTime thruDate;
-    private LocalDateTime fromDate;
+    private LocalDate thruDate;
+    private LocalDate fromDate;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="client_id")
+    private Client client;
+
+    private CardColor color;
 
     public  Card(){}
 
-    public Card(Client client , TransactionType type, String number, int cvv, LocalDateTime thruDate, LocalDateTime fromDate) {
+    public Card(Client client , CardType type, String number, int cvv, LocalDate thruDate, LocalDate fromDate, CardColor color) {
         this.cardHolder = client.getFirstName() + " " + client.getLastName();
         this.type = type;
         this.number = number;
         this.cvv = cvv;
         this.thruDate = thruDate;
         this.fromDate = fromDate;
+        this.color = color;
     }
 
     public String getCardHolder() {
@@ -40,11 +45,11 @@ public class Card {
         this.cardHolder = cardHolder;
     }
 
-    public TransactionType getType() {
+    public CardType getType() {
         return type;
     }
 
-    public void setType(TransactionType type) {
+    public void setType(CardType type) {
         this.type = type;
     }
 
@@ -64,19 +69,35 @@ public class Card {
         this.cvv = cvv;
     }
 
-    public LocalDateTime getThruDate() {
+    public LocalDate getThruDate() {
         return thruDate;
     }
 
-    public void setThruDate(LocalDateTime thruDate) {
+    public void setThruDate(LocalDate thruDate) {
         this.thruDate = thruDate;
     }
 
-    public LocalDateTime getFromDate() {
+    public LocalDate getFromDate() {
         return fromDate;
     }
 
-    public void setFromDate(LocalDateTime fromDate) {
+    public void setFromDate(LocalDate fromDate) {
         this.fromDate = fromDate;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public CardColor getColor() {
+        return color;
+    }
+
+    public void setColor(CardColor color) {
+        this.color = color;
     }
 }

@@ -18,7 +18,12 @@ public class HomebankingApplication {
 		SpringApplication.run(HomebankingApplication.class, args);
 	}
 @Bean
-public CommandLineRunner initData(ClientRepository clientRepository, AccountRepository accountRepository, TransactionRepository transactionRepository, LoanRepository loanRepository, ClientLoanRepository clientLoanRepository){
+public CommandLineRunner initData(ClientRepository clientRepository,
+								  AccountRepository accountRepository,
+								  TransactionRepository transactionRepository,
+								  LoanRepository loanRepository,
+								  ClientLoanRepository clientLoanRepository,
+						          CardRepository cardRepository         ){
 		return (args -> {
 			//Se crean los clientes y las cuentas de prueba
 			Client client1 = new Client("Melba","Morel","melba@mindhub.com");
@@ -34,6 +39,7 @@ public CommandLineRunner initData(ClientRepository clientRepository, AccountRepo
 
 			LocalDateTime actualDatetime1 = LocalDateTime.now();
 			LocalDateTime tomorrowDateTime = actualDatetime1.plusDays(32);
+			LocalDate fiveYearsDate = actualdate1.plusYears(5);
 			Transaction transactionMelba1 = new Transaction(-300,"Compra en el chino",actualDatetime1, TransactionType.DEBIT);
 
 			//Se crean las transacciones de prueba
@@ -63,6 +69,15 @@ public CommandLineRunner initData(ClientRepository clientRepository, AccountRepo
 
 			//Préstamo Automotriz, 200.000, 36 cuotas
 			ClientLoan loanGuillermo2 = new ClientLoan(200000, 36, client2, loanAutomotriz);
+
+			//Creando tarjeta  GOLD  para Melba Morell
+			Card debitCardGoldMelba1 = new Card(client1,CardType.DEBIT,"0912 3487 6501 1276",150,fiveYearsDate, actualdate1, CardColor.GOLD);
+
+			//Creando tarjeta  TITANIUM  para Melba Morell
+			Card creditCardTitaniumMelba1 = new Card(client1,CardType.CREDIT,"1234 0987 7601 4589", 315, fiveYearsDate, actualdate1, CardColor.TITANIUM);
+
+			//Creando tarjeta  SILVER  para el segundo cliente
+			Card creditCardSilverGuille1 = new Card(client2, CardType.CREDIT,"7685 9450 9123 0032", 567, fiveYearsDate, actualdate1, CardColor.SILVER);
 
 			//Se persisten los objetos creados en la base de datos H2 que vive en memoria
 
@@ -105,6 +120,13 @@ public CommandLineRunner initData(ClientRepository clientRepository, AccountRepo
 			clientLoanRepository.save(loanGuillermo1);
 			client2.addClientLoan(loanGuillermo2);
 			clientLoanRepository.save(loanGuillermo2);
+
+			client1.addCard(debitCardGoldMelba1);
+			cardRepository.save(debitCardGoldMelba1);
+			client1.addCard(creditCardTitaniumMelba1);
+			cardRepository.save(creditCardTitaniumMelba1);
+			client2.addCard(creditCardSilverGuille1);
+			cardRepository.save(creditCardSilverGuille1);
 
 		});
 	}
