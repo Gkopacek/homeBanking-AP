@@ -26,14 +26,14 @@ public CommandLineRunner initData(ClientRepository clientRepository,
 						          CardRepository cardRepository         ){
 		return (args -> {
 			//Se crean los clientes y las cuentas de prueba
-			Client client1 = new Client("Melba","Morel","melba@mindhub.com");
+			Client client1 = new Client("Melba","Morel","melba@mindhub.com","12345");
 
 			LocalDate actualdate1 = LocalDate.now();
 			LocalDate tomorrow = actualdate1.plusDays(1);
 			Account accountMelba1 = new Account("VIN001",actualdate1,5000);
 			Account accountMelba2 = new Account("VIN002",tomorrow,7500);
 
-			Client client2 = new Client("Guillermo","Kopacek","kopacek5@gmail.com");
+			Client client2 = new Client("Guillermo","Kopacek","kopacek5@gmail.com","098765");
 			Account accountGuillermo1 = new Account("VIN003",actualdate1,1000000);
 
 
