@@ -31,14 +31,18 @@ public class Client {
 
     private String password;
 
+    private RoleType role;
+
     public Client(){}
 
-    public Client(String firstName, String lastName, String email, String password) {
+    public Client(String firstName, String lastName, String email, String password, RoleType role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
+
 
     public long getId() {
         return id;
@@ -75,6 +79,14 @@ public class Client {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public RoleType getRole() {
+        return role;
+    }
+
+    public void setRole(RoleType role) {
+        this.role = role;
     }
 
     public Set<Account> getAccounts() {
