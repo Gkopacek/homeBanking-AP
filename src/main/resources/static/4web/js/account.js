@@ -1,23 +1,23 @@
 Vue.createApp({
     data() {
         return {
-            clientInfo: {},
-            creditCards: [],
-            debitCards: [],
+            accountInfo: {},
             errorToats: null,
             errorMsg: null,
         }
     },
     methods: {
         getData: function () {
-            axios.get("/api/clients/current")
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            axios.get(`/api/accounts/${id}`)
                 .then((response) => {
                     //get client ifo
-                    this.clientInfo = response.data;
-                    this.creditCards = this.clientInfo.cards.filter(card => card.type == "CREDIT");
-                    this.debitCards = this.clientInfo.cards.filter(card => card.type == "DEBIT");
+                    this.accountInfo = response.data;
+                    this.accountInfo.transactions.sort((a, b) => parseInt(b.id - a.id))
                 })
                 .catch((error) => {
+                    // handle error
                     this.errorMsg = "Error getting data";
                     this.errorToats.show();
                 })

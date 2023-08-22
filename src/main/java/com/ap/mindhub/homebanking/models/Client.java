@@ -44,6 +44,17 @@ public class Client {
     }
 
 
+    //Client(firstName, lastName, email, passwordEncoder.encode(password))
+
+
+    public Client(String firstName, String lastName, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        setRole(RoleType.CLIENT);
+    }
+
     public long getId() {
         return id;
     }
