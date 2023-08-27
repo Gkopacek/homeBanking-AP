@@ -1,7 +1,9 @@
 package com.ap.mindhub.homebanking.controllers;
 
 import com.ap.mindhub.homebanking.dtos.ClientDTO;
+import com.ap.mindhub.homebanking.models.Account;
 import com.ap.mindhub.homebanking.models.Client;
+import com.ap.mindhub.homebanking.repositories.AccountRepository;
 import com.ap.mindhub.homebanking.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -22,6 +25,9 @@ import static java.util.stream.Collectors.toList;
 public class ClientController {
     @Autowired
     public ClientRepository clientRepository;
+
+    @Autowired
+    public AccountRepository accountRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -77,9 +83,12 @@ public class ClientController {
 
         }
 
+        Client newClient = new Client(firstName, lastName, email, passwordEncoder.encode(password));
 
-
-        clientRepository.save(new Client(firstName, lastName, email, passwordEncoder.encode(password)));
+        clientRepository.save(newClient);
+        Account newAccount = new Account(0);
+        newClient.addAccount(newAccount);
+        accountRepository.save(newAccount);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
 

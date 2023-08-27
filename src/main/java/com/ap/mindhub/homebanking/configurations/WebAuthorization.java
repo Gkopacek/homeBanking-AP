@@ -24,7 +24,7 @@ public class WebAuthorization extends WebSecurityConfigurerAdapter {
        http.authorizeRequests()
                        .antMatchers("/web/index.html", "/web/css/style.css", "/web/img/Mindhub-logo.png", "/web/js/index.js", "/web/img/avila.jpg", "/web/img/favicon.ico", "/web/img/avila.jpg", "/api/login", "/api/logout","/web/img/mindhub.jpg").permitAll()
                        .antMatchers(HttpMethod.POST,"/api/clients").permitAll()
-                       .antMatchers("/web/css/cards.css","/web/accounts.html", "/web/js/accounts.js","web/js/account.js", "/api/accounts", "/web/cards.html", "/web/js/cards.js", "/api/clients/current").hasAuthority("CLIENT")
+                       .antMatchers("/web/css/cards.css","/web/accounts.html", "/web/js/accounts.js","web/js/account.js", "/api/accounts", "/web/cards.html", "/web/js/cards.js", "/api/clients/current", "/api/clients/current/accounts").hasAuthority("CLIENT")
                        .antMatchers("/manager.html", "/manager.js", "/api/clients", "/api/accounts", "/api/clients/{id}").hasAuthority("ADMIN")
                        .anyRequest().denyAll()
                        ;

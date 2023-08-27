@@ -38,6 +38,12 @@ public class Account {
         this.balance = balance;
     }
 
+    public Account(double balance){
+        this.number = "VIN-" + (int) ((Math.random() * (99999999 - 00000001)) + 00000001);
+        this.date = LocalDate.now();
+        this.balance = balance;
+    }
+
     public long getId(){
         return id;
     }
