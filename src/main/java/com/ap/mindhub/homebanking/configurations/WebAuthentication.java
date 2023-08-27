@@ -44,14 +44,14 @@ public class WebAuthentication extends GlobalAuthenticationConfigurerAdapter {
 
                     return new User(client.getEmail(), client.getPassword(),
 
-                            AuthorityUtils.createAuthorityList("ADMIN"));
+                            AuthorityUtils.createAuthorityList("ADMIN","CLIENT"));
 
                 }
             }
 
             else {
 
-                   throw new UsernameNotFoundException("Unknown user: " + inputName);
+                 throw new UsernameNotFoundException("Unknown user: " + inputName);
 
                 }
 

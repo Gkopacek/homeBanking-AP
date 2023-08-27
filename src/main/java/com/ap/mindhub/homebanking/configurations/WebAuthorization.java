@@ -22,10 +22,11 @@ public class WebAuthorization extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
        http.authorizeRequests()
-                       .antMatchers("/api/clients", "/web/index.html", "/web/css/style.css", "/web/css/cards.css", "/web/img/Mindhub-logo.png", "/web/js/index.js", "/web/img/avila.jpg", "/web/img/favicon.ico", "/web/img/avila.jpg", "/api/login", "/web/img/mindhub.jpg", "/h2-console/**", "api/clients/current").permitAll()
-                       .antMatchers("/web/accounts.html", "/web/js/accounts.js", "/api/accounts", "/api/clients/1").hasAuthority("CLIENT")
-                       .antMatchers("/manager.html", "/manager.js", "/clients", "/web/accounts.html", "/web/js/accounts.js", "/api/accounts", "/api/clients/1").hasAuthority("ADMIN")
-                       //.anyRequest().denyAll()
+                       .antMatchers("/web/index.html", "/web/css/style.css", "/web/img/Mindhub-logo.png", "/web/js/index.js", "/web/img/avila.jpg", "/web/img/favicon.ico", "/web/img/avila.jpg", "/api/login", "/api/logout","/web/img/mindhub.jpg").permitAll()
+                       .antMatchers(HttpMethod.POST,"/api/clients").permitAll()
+                       .antMatchers("/web/css/cards.css","/web/accounts.html", "/web/js/accounts.js","web/js/account.js", "/api/accounts", "/web/cards.html", "/web/js/cards.js", "/api/clients/current").hasAuthority("CLIENT")
+                       .antMatchers("/manager.html", "/manager.js", "/api/clients", "/api/accounts", "/api/clients/{id}").hasAuthority("ADMIN")
+                       .anyRequest().denyAll()
                        ;
 
         http.formLogin()

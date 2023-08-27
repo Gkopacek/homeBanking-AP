@@ -46,12 +46,29 @@ public class ClientController {
 
 
 
-        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
+        if (firstName.isEmpty()) {
 
-            return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("first name is required", HttpStatus.FORBIDDEN);
 
         }
 
+        if (lastName.isEmpty()) {
+
+            return new ResponseEntity<>("last name is required", HttpStatus.FORBIDDEN);
+
+        }
+
+        if (email.isEmpty()) {
+
+            return new ResponseEntity<>("email is required", HttpStatus.FORBIDDEN);
+
+        }
+
+        if (password.isEmpty()) {
+
+            return new ResponseEntity<>("password is required", HttpStatus.FORBIDDEN);
+
+        }
 
 
         if (clientRepository.findByEmail(email) !=  null) {
@@ -78,7 +95,14 @@ public class ClientController {
 
     @RequestMapping("/clients/current")
     public ClientDTO getAuthClient(Authentication authentication){
-        return Optional.ofNullable(clientRepository.findByEmail(authentication.getName())).map(client -> new ClientDTO(client)).orElse(null);
+        if(authentication != null){
+            Client client = clientRepository.findByEmail(authentication.getName());
+                ClientDTO clientDTO = new ClientDTO(client);
+                return clientDTO;
+        }
+
+        Client clientNull = new Client("null","null","null","null");
+        return new ClientDTO(clientNull);
     }
 
 
