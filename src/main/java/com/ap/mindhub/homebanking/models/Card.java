@@ -104,4 +104,21 @@ public class Card {
     public void setColor(CardColor color) {
         this.color = color;
     }
+
+    @Override
+    public String toString() {
+        return "Card{" +
+                "id=" + id +
+                ", cardHolder='" + cardHolder + '\'' +
+                ", type=" + type +
+                ", number='" + number + '\'' +
+                ", cvv=" + cvv +
+                ", thruDate=" + thruDate +
+                ", fromDate=" + fromDate +
+                ", client=" + client +
+                ", color=" + color +
+                '}';
+    }
 }
+
+

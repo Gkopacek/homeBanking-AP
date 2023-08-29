@@ -47,7 +47,6 @@ public class AccountController {
     public ResponseEntity<Object> createAccount(Authentication authentication){
         if(authentication != null){
             Client client = clientRepository.findByEmail(authentication.getName());
-            List<Account> accounts = new ArrayList<>();
             if(client.getAccounts().toArray().length<=2){
                 Account newAccount = new Account(0);
                 client.addAccount(newAccount);

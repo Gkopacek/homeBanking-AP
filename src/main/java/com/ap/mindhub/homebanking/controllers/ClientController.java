@@ -6,7 +6,6 @@ import com.ap.mindhub.homebanking.models.Client;
 import com.ap.mindhub.homebanking.repositories.AccountRepository;
 import com.ap.mindhub.homebanking.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
