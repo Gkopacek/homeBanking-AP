@@ -13,6 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.lang.reflect.Array;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Set;
+
 import static java.util.stream.Collectors.toList;
 
 @RequestMapping("/api")
@@ -50,16 +55,22 @@ public class CardController {
     public ResponseEntity<Object> createCad(@RequestParam CardType type, @RequestParam CardColor color, Authentication authentication) {
 
         Client client = clientRepository.findByEmail(authentication.getName());
-        System.out.println(client.getCards());
 
-            Card newCard = new Card();
-            client.addCard(newCard);
-            cardRepository.save(newCard);
-            clientRepository.save(client);
+         Set<Card> cards = client.getCards();
 
-            return new ResponseEntity<>("Gold Card created with success", HttpStatus.CREATED);
+         for(Card card: cards){
+             if(!(card.getColor().equals(color) && card.getType().equals(type))){
+                 Card newCard = new Card(client,type,"214155352",123, LocalDate.now(), LocalDate.now(), color);
+                 client.addCard(newCard);
+                 cardRepository.save(newCard);
+                 clientRepository.save(client);
+                 return new ResponseEntity<>(type +  " Card " + color + "created with success ", HttpStatus.CREATED);
+             }else {
+                 return new ResponseEntity<>("you allready have a " + type + " card " + color,HttpStatus.FORBIDDEN);
+             }
 
-
+         }
+         return new ResponseEntity<>("Prueba", HttpStatus.FORBIDDEN);
 
     }
 
