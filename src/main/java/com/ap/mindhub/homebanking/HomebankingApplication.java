@@ -10,9 +10,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @SpringBootApplication
 public class HomebankingApplication {
@@ -139,3 +142,4 @@ public CommandLineRunner initData(ClientRepository clientRepository,
 	}
 
 }
+

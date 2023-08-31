@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.*;
 
 
 @Entity
@@ -34,6 +35,16 @@ public class Card {
         this.cvv = cvv;
         this.thruDate = thruDate;
         this.fromDate = fromDate;
+        this.color = color;
+    }
+
+    public Card(Client client , CardType type, CardColor color) {
+        this.cardHolder = client.getFirstName() + " " + client.getLastName();
+        this.type = type;
+        this.number = cardNumberGen();
+        this.cvv =  (int) ((Math.random() * (999 - 001)) + 001);
+        this.thruDate = LocalDate.now().plusYears(5);
+        this.fromDate = LocalDate.now();
         this.color = color;
     }
 
@@ -105,20 +116,28 @@ public class Card {
         this.color = color;
     }
 
-    @Override
-    public String toString() {
-        return "Card{" +
-                "id=" + id +
-                ", cardHolder='" + cardHolder + '\'' +
-                ", type=" + type +
-                ", number='" + number + '\'' +
-                ", cvv=" + cvv +
-                ", thruDate=" + thruDate +
-                ", fromDate=" + fromDate +
-                ", client=" + client +
-                ", color=" + color +
-                '}';
+    public String cardNumberGen(){
+        List<String> numbers = new ArrayList<>();
+
+        Random random = new Random();
+
+        for(int i=0; i<4; i++ ){
+            if(i!=0){
+                numbers.add("-"+String.format("%04d",random.nextInt(10000)));
+            }else{
+                numbers.add(String.format("%04d",random.nextInt(10000)));
+            }
+
+        }
+        String concatNumber = "";
+        for(String number: numbers){
+            concatNumber += number;
+
+        }
+        return concatNumber;
     }
+
+
 }
 
 

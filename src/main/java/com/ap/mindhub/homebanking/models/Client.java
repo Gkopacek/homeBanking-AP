@@ -127,5 +127,16 @@ public class Client {
         cards.add(card);
     }
 
+    public boolean existCard(Set<Card> cards, CardColor colorType, CardType cardType){
+        for(Card card: cards){
+
+            if(card.getType().equals(cardType)&&card.getColor().equals(colorType)){
+                return true;
+            }
+
+        }
+        return false;
+    }
+
 }
 
