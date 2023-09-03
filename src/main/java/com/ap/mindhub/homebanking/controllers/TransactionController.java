@@ -27,43 +27,43 @@ public class TransactionController {
     @Autowired
     TransactionRepository transactionRepository;
 
-    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    @RequestMapping(value = "/transactions", method = RequestMethod.POST)
     @Transactional
     public ResponseEntity<Object> createDebitTransaction(
-            Authentication authentication, @RequestParam Double debitAmount,
-            @RequestParam String transactionDescription, @RequestParam String originAccount,
-            @RequestParam String destinationAccount) {
+            @RequestParam String fromAccountNumber, @RequestParam String toAccountNumber,
+            @RequestParam Double amount, @RequestParam String description,
+            Authentication authentication) {
 
         if (authentication != null) {
             Client client = clientRepository.findByEmail(authentication.getName());
 
-            if (debitAmount == null) {
+            if (amount == null) {
                 return new ResponseEntity<>("Amount is empty", HttpStatus.FORBIDDEN);
-            } else if (debitAmount <= 0) {
+            } else if (amount <= 0) {
                 return new ResponseEntity<>("Amount can´t be 0 or less", HttpStatus.FORBIDDEN);
             }
 
-            if (transactionDescription.isEmpty()) {
+            if (description.isEmpty()) {
                 return new ResponseEntity<>("Description is empty", HttpStatus.FORBIDDEN);
             }
 
-            if (originAccount.isEmpty()) {
+            if (fromAccountNumber.isEmpty()) {
                 return new ResponseEntity<>("Origin account is empty", HttpStatus.FORBIDDEN);
             }
 
-            if (destinationAccount.isEmpty()) {
+            if (toAccountNumber.isEmpty()) {
                 return new ResponseEntity<>("Destination account is empty", HttpStatus.FORBIDDEN);
             }
 
-            if (originAccount.equals(destinationAccount)) {
+            if (fromAccountNumber.equals(toAccountNumber)) {
                 return new ResponseEntity<>("Origin account and destination account are the same", HttpStatus.FORBIDDEN);
             }
 
-            if(accountRepository.findByNumber(originAccount) == null){
+            if(accountRepository.findByNumber(fromAccountNumber) == null){
                 return new ResponseEntity<>("The origin account don´t exist", HttpStatus.FORBIDDEN);
             }
 
-            if(accountRepository.findByNumber(destinationAccount) == null){
+            if(accountRepository.findByNumber(toAccountNumber) == null){
                 return new ResponseEntity<>("The destination account don´t exist", HttpStatus.FORBIDDEN);
             }
 
@@ -71,9 +71,9 @@ public class TransactionController {
             boolean noOwnedAccount = true;
             for (Account account : accounts) {
 
-                if (account.getNumber().equals(originAccount)) {
+                if (account.getNumber().equals(fromAccountNumber)) {
                     noOwnedAccount = false;
-                    if (account.getBalance() < debitAmount){
+                    if (account.getBalance() < amount){
                         return new ResponseEntity<>("You don´t have enough money to make this transaction", HttpStatus.FORBIDDEN);
                     }
 
@@ -85,25 +85,25 @@ public class TransactionController {
             }
 
 
-            Account origin = accountRepository.findByNumber(originAccount);
-            Account destination = accountRepository.findByNumber(destinationAccount);
+            Account origin = accountRepository.findByNumber(fromAccountNumber);
+            Account destination = accountRepository.findByNumber(toAccountNumber);
 
 
 
-            Transaction originTransaction = new Transaction(-debitAmount, transactionDescription + origin.getNumber(), LocalDateTime.now(), TransactionType.DEBIT);
+            Transaction originTransaction = new Transaction(-amount, description + origin.getNumber(), LocalDateTime.now(), TransactionType.DEBIT);
             origin.addTransaction(originTransaction);
             transactionRepository.save(originTransaction);
-            origin.setBalance(origin.getBalance()-debitAmount);
+            origin.setBalance(origin.getBalance()-amount);
             accountRepository.save(origin);
 
-            Transaction destinationTransaction = new Transaction(debitAmount, transactionDescription + destination.getNumber(), LocalDateTime.now(), TransactionType.CREDIT);
+            Transaction destinationTransaction = new Transaction(amount, description + destination.getNumber(), LocalDateTime.now(), TransactionType.CREDIT);
             destination.addTransaction(destinationTransaction);
             transactionRepository.save(destinationTransaction);
-            destination.setBalance(destination.getBalance()+debitAmount);
+            destination.setBalance(destination.getBalance()+amount);
             accountRepository.save(destination);
 
 
-            return new ResponseEntity<>("Created", HttpStatus.CREATED);
+            return new ResponseEntity<>("Transaction created", HttpStatus.CREATED);
 
         }
 
