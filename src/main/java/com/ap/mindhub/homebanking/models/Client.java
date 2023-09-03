@@ -104,6 +104,8 @@ public class Client {
         return accounts;
     }
 
+    //Aditional Methods
+
     public void addAccount(Account account) {
         account.setClient(this);
         accounts.add(account);

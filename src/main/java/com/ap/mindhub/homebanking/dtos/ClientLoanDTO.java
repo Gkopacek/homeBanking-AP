@@ -10,7 +10,7 @@ public class ClientLoanDTO {
     private double amount;
     private Integer payments;
 
-
+    public ClientLoanDTO(){}
 
     public ClientLoanDTO(ClientLoan clientLoan) {
         this.id = clientLoan.getId();

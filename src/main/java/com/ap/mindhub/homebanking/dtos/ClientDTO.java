@@ -21,6 +21,8 @@ public class ClientDTO {
 
    private Set<CardDTO> cards = new HashSet<>();
 
+   public ClientDTO(){}
+
     public ClientDTO(Client client) {
 
         this.id = client.getId();
