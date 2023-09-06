@@ -61,15 +61,15 @@ public CommandLineRunner initData(ClientRepository clientRepository,
 			//Se crean la lista de enteros para colocar en payments
 			List<Integer> hipotecarioPayments = List.of(12,24,36,48,60);
 			List<Integer> personalPayments = List.of(6,12,24);
-			List<Integer> AutomotrizPayments = List.of(6,12,24,36);
+			List<Integer> automotivePayments = List.of(6,12,24,36);
 
 			//Se Crean los tipos de prestamos de prueba
-			Loan loanHipotecario = new Loan("Hipotecario", 500000, hipotecarioPayments);
+			Loan loanMortgage = new Loan("Mortgage", 500000, hipotecarioPayments);
 			Loan loanPersonal = new Loan("Personal", 100000, personalPayments);
-			Loan loanAutomotriz = new Loan("Automotriz", 300000, AutomotrizPayments);
+			Loan loanAutomotive = new Loan("automotive", 300000, automotivePayments);
 
 
-			ClientLoan loanMelba1 =  new ClientLoan(400000, 60, client1, loanHipotecario);
+			ClientLoan loanMelba1 =  new ClientLoan(400000, 60, client1, loanMortgage);
 
 			//Préstamo Personal, 50.000, 12 cuotas
 			ClientLoan loanMelba2 =  new ClientLoan(50000,12,client1,loanPersonal);
@@ -78,7 +78,7 @@ public CommandLineRunner initData(ClientRepository clientRepository,
 			ClientLoan loanGuillermo1 = new ClientLoan(100000, 24, client2, loanPersonal);
 
 			//Préstamo Automotriz, 200.000, 36 cuotas
-			ClientLoan loanGuillermo2 = new ClientLoan(200000, 36, client2, loanAutomotriz);
+			ClientLoan loanGuillermo2 = new ClientLoan(200000, 36, client2, loanAutomotive);
 
 			//Creando tarjeta  GOLD  para Melba Morell
 			Card debitCardGoldMelba1 = new Card(client1,CardType.DEBIT,"0912 3487 6501 1276",150,LocalDate.now().plusYears(5), LocalDate.now(), CardColor.GOLD);
@@ -116,9 +116,9 @@ public CommandLineRunner initData(ClientRepository clientRepository,
 			accountGuillermo1.addTransaction(transactionGuillermo1);
 			transactionRepository.save(transactionGuillermo1);
 
-			loanRepository.save(loanHipotecario);
+			loanRepository.save(loanMortgage);
 			loanRepository.save(loanPersonal);
-			loanRepository.save(loanAutomotriz);
+			loanRepository.save(loanAutomotive);
 
 
 			client1.addClientLoan(loanMelba1);
