@@ -5,6 +5,8 @@ import com.ap.mindhub.homebanking.models.Account;
 import com.ap.mindhub.homebanking.models.Client;
 import com.ap.mindhub.homebanking.repositories.AccountRepository;
 import com.ap.mindhub.homebanking.repositories.ClientRepository;
+import com.ap.mindhub.homebanking.services.AccountService;
+import com.ap.mindhub.homebanking.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +24,12 @@ import static java.util.stream.Collectors.toList;
 @RequestMapping("/api")
 @RestController
 public class ClientController {
-    @Autowired
-    public ClientRepository clientRepository;
 
     @Autowired
-    public AccountRepository accountRepository;
+    public ClientService clientService;
+
+    @Autowired
+    public AccountService accountService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -37,7 +40,7 @@ public class ClientController {
 
     @RequestMapping("/clients")
     public List<ClientDTO> getClients(){
-        return clientRepository.findAll().stream().map(client -> new ClientDTO(client)).collect(toList());
+        return clientService.getAllClients();
     }
 
 
@@ -76,7 +79,7 @@ public class ClientController {
         }
 
 
-        if (clientRepository.findByEmail(email) !=  null) {
+        if (clientService.findByEmail(email) !=  null) {
 
             return new ResponseEntity<>("Name already in use", HttpStatus.FORBIDDEN);
 
@@ -84,10 +87,10 @@ public class ClientController {
 
         Client newClient = new Client(firstName, lastName, email, passwordEncoder.encode(password));
 
-        clientRepository.save(newClient);
+        clientService.SaveClient(newClient);
         Account newAccount = new Account(0);
         newClient.addAccount(newAccount);
-        accountRepository.save(newAccount);
+        accountService.saveAccount(newAccount);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
 
@@ -98,13 +101,13 @@ public class ClientController {
 
     @RequestMapping("/clients/{id}")
     public ClientDTO getClient(@PathVariable Long id){
-        return clientRepository.findById(id).map(client -> new ClientDTO(client)).orElse(null);
+        return clientService.findById(id);
     }
 
     @RequestMapping("/clients/current")
     public ClientDTO getAuthClient(Authentication authentication){
         if(authentication != null){
-            Client client = clientRepository.findByEmail(authentication.getName());
+            Client client = clientService.findByEmail(authentication.getName());
                 ClientDTO clientDTO = new ClientDTO(client);
                 return clientDTO;
         }

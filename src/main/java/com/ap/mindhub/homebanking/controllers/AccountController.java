@@ -7,6 +7,8 @@ import com.ap.mindhub.homebanking.models.Account;
 import com.ap.mindhub.homebanking.models.Client;
 import com.ap.mindhub.homebanking.repositories.AccountRepository;
 import com.ap.mindhub.homebanking.repositories.ClientRepository;
+import com.ap.mindhub.homebanking.services.AccountService;
+import com.ap.mindhub.homebanking.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,20 +27,21 @@ import static java.util.stream.Collectors.toList;
 public class AccountController {
 
     @Autowired
-    AccountRepository accountRepository;
+    ClientService clientService;
 
     @Autowired
-    ClientRepository clientRepository;
+    AccountService accountService;
+
 
     @RequestMapping("/accounts")
     public List<AccountDTO> getAccounts(){
-        return accountRepository.findAll().stream().map(account -> new AccountDTO(account)).collect(toList());
+        return accountService.getAllAccounts();
     }
 
     @RequestMapping("/accounts/{id}")
     public AccountDTO getAccount(@PathVariable Long id){
 
-        return accountRepository.findById(id).map(account -> new AccountDTO(account)).orElse(null);
+        return accountService.findById(id);
     }
 
     //
@@ -46,11 +49,11 @@ public class AccountController {
     @PostMapping("clients/current/accounts")
     public ResponseEntity<Object> createAccount(Authentication authentication){
         if(authentication != null){
-            Client client = clientRepository.findByEmail(authentication.getName());
+            Client client = clientService.findByEmail(authentication.getName());
             if(client.getAccounts().toArray().length<=2){
                 Account newAccount = new Account(0);
                 client.addAccount(newAccount);
-                accountRepository.save(newAccount);
+                accountService.saveAccount(newAccount);
                 //clientRepository.save(client);
 
                 return new ResponseEntity<>("Account created with success", HttpStatus.CREATED);
@@ -66,7 +69,7 @@ public class AccountController {
     public List<AccountDTO> getAuthClientAccounts(Authentication authentication){
 
         if(authentication != null){
-            Client client = clientRepository.findByEmail(authentication.getName());
+            Client client = clientService.findByEmail(authentication.getName());
             return client.getAccounts().stream().map(account -> new AccountDTO(account)).collect(toList());
 
             }
