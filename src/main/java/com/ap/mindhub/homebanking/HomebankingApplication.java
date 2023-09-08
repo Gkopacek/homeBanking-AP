@@ -66,7 +66,7 @@ public CommandLineRunner initData(ClientRepository clientRepository,
 			//Se Crean los tipos de prestamos de prueba
 			Loan loanMortgage = new Loan("Mortgage", 500000, hipotecarioPayments);
 			Loan loanPersonal = new Loan("Personal", 100000, personalPayments);
-			Loan loanAutomotive = new Loan("automotive", 300000, automotivePayments);
+			Loan loanAutomotive = new Loan("Automotive", 300000, automotivePayments);
 
 
 			ClientLoan loanMelba1 =  new ClientLoan(400000, 60, client1, loanMortgage);

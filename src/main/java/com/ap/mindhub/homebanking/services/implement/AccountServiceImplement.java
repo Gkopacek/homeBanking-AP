@@ -34,5 +34,10 @@ public class AccountServiceImplement implements AccountService {
         return accountRepository.findById(id).map(account -> new AccountDTO(account)).orElse(null);
     }
 
+    @Override
+    public Account findByNumber(String number) {
+        return accountRepository.findByNumber(number);
+    }
+
 
 }

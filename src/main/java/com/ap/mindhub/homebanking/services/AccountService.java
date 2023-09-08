@@ -14,6 +14,8 @@ public interface AccountService {
 
     AccountDTO findById(Long id);
 
+    Account findByNumber(String number);
+
     void saveAccount(Account account);
 
 }

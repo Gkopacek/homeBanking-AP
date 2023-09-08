@@ -4,6 +4,9 @@ import com.ap.mindhub.homebanking.models.*;
 import com.ap.mindhub.homebanking.repositories.AccountRepository;
 import com.ap.mindhub.homebanking.repositories.ClientRepository;
 import com.ap.mindhub.homebanking.repositories.TransactionRepository;
+import com.ap.mindhub.homebanking.services.AccountService;
+import com.ap.mindhub.homebanking.services.ClientService;
+import com.ap.mindhub.homebanking.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,13 +22,13 @@ import java.util.Set;
 public class TransactionController {
 
     @Autowired
-    ClientRepository clientRepository;
+    ClientService clientService;
 
     @Autowired
-    AccountRepository accountRepository;
+    AccountService accountService;
 
     @Autowired
-    TransactionRepository transactionRepository;
+    TransactionService transactionService;
 
     @RequestMapping(value = "/transactions", method = RequestMethod.POST)
     @Transactional
@@ -35,7 +38,7 @@ public class TransactionController {
             Authentication authentication) {
 
         if (authentication != null) {
-            Client client = clientRepository.findByEmail(authentication.getName());
+            Client client = clientService.findByEmail(authentication.getName());
 
             if (amount == null) {
                 return new ResponseEntity<>("Amount is empty", HttpStatus.FORBIDDEN);
@@ -59,11 +62,11 @@ public class TransactionController {
                 return new ResponseEntity<>("Origin account and destination account are the same", HttpStatus.FORBIDDEN);
             }
 
-            if(accountRepository.findByNumber(fromAccountNumber) == null){
+            if(accountService.findByNumber(fromAccountNumber) == null){
                 return new ResponseEntity<>("The origin account don´t exist", HttpStatus.FORBIDDEN);
             }
 
-            if(accountRepository.findByNumber(toAccountNumber) == null){
+            if(accountService.findByNumber(toAccountNumber) == null){
                 return new ResponseEntity<>("The destination account don´t exist", HttpStatus.FORBIDDEN);
             }
 
@@ -85,22 +88,22 @@ public class TransactionController {
             }
 
 
-            Account origin = accountRepository.findByNumber(fromAccountNumber);
-            Account destination = accountRepository.findByNumber(toAccountNumber);
+            Account origin = accountService.findByNumber(fromAccountNumber);
+            Account destination = accountService.findByNumber(toAccountNumber);
 
 
 
             Transaction originTransaction = new Transaction(-amount, description + origin.getNumber(), LocalDateTime.now(), TransactionType.DEBIT);
             origin.addTransaction(originTransaction);
-            transactionRepository.save(originTransaction);
+            transactionService.saveTransaction(originTransaction);
             origin.setBalance(origin.getBalance()-amount);
-            accountRepository.save(origin);
+            accountService.saveAccount(origin);
 
             Transaction destinationTransaction = new Transaction(amount, description + destination.getNumber(), LocalDateTime.now(), TransactionType.CREDIT);
             destination.addTransaction(destinationTransaction);
-            transactionRepository.save(destinationTransaction);
+            transactionService.saveTransaction(destinationTransaction);
             destination.setBalance(destination.getBalance()+amount);
-            accountRepository.save(destination);
+            accountService.saveAccount(destination);
 
 
             return new ResponseEntity<>("Transaction created", HttpStatus.CREATED);
