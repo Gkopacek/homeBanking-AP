@@ -24,6 +24,8 @@ public class HomebankingApplication {
 		SpringApplication.run(HomebankingApplication.class, args);
 	}
 
+
+	/*
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
@@ -140,6 +142,6 @@ public CommandLineRunner initData(ClientRepository clientRepository,
 
 		});
 	}
-
+*/
 }
 
