@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RequestMapping("/api")
@@ -40,5 +37,17 @@ public class CardController {
          return new ResponseEntity<>("you have created " + cardType + " " + cardColor ,HttpStatus.CREATED);
     }
 
+    @DeleteMapping(value = "/clients/current/cards/delete/{id}")
+    public ResponseEntity<String> deleteCard(@PathVariable Long id, Authentication authentication){
+        Client client = clientService.findByEmail(authentication.getName());
+        Card card = cardService.findByID(id);
+        System.out.println(card);
+        if(client.existCard(client.getCards(), id)) {
+            cardService.deleteCardById(id);
+            return ResponseEntity.ok("card");
+        }
+        Card cardNull = new Card();
+        return new ResponseEntity<>("cardNull", HttpStatus.FORBIDDEN );
+    }
 
 }

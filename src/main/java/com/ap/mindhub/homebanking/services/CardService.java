@@ -7,5 +7,9 @@ import org.springframework.http.ResponseEntity;
 public interface CardService {
     void saveCard(Card card);
 
+    void deleteCardById(Long id);
+
+    Card findByID(Long id);
+
 
 }

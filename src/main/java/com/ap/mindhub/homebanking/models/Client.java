@@ -140,5 +140,17 @@ public class Client {
         return false;
     }
 
+    public boolean existCard(Set<Card> cards, Long id){
+        for(Card card: cards){
+
+            if(card.getId()==id){
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+
 }
 
