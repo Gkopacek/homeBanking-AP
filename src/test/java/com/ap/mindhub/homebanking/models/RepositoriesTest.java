@@ -1,4 +1,4 @@
-package com.ap.mindhub.homebanking;
+package com.ap.mindhub.homebanking.models;
 
 
 import com.ap.mindhub.homebanking.models.Loan;

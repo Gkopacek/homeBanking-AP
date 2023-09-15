@@ -37,8 +37,8 @@ public class ClientDTO {
 
        this.loans = client.getClientLoan().stream().map(element-> new ClientLoanDTO(element)).collect(Collectors.toSet());
 
-       this.cards = client.getCards().stream().map(element -> new CardDTO(element)).collect(Collectors.toSet());
-
+       //this.cards = client.getCards().stream().map(element -> new CardDTO(element)).collect(Collectors.toSet());
+        this.cards = client.getCards().stream().filter(card -> card.isActive()==true).map(element -> new CardDTO(element)).collect(Collectors.toSet());
     }
 
     public long getId() {

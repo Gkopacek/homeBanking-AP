@@ -35,13 +35,13 @@ public class LoanController {
     TransactionService transactionService;
 
 
-    @RequestMapping("/loans")
+    @GetMapping("/loans")
     public List<LoanDTO> getLoans(){
         return loanService.getAllLoans();
     }
 
 
-    @RequestMapping(value = "/loans", method = RequestMethod.POST)
+    @PostMapping(value = "/loans")
     @Transactional
     public ResponseEntity<Object> aplyLoan(@RequestBody LoanApplicationDTO loanApplicationDTO, Authentication authentication){
 

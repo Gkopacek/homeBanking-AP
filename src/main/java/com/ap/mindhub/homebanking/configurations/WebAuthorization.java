@@ -23,7 +23,7 @@ public class WebAuthorization extends WebSecurityConfigurerAdapter {
 
        http.authorizeRequests()
 
-                       .antMatchers("/web/css/style.css","/web/index.html", "/web/img/Mindhub-logo.png", "/web/js/index.js", "/web/img/avila.jpg", "/web/img/favicon.ico", "/web/img/avila.jpg", "/api/login", "/api/logout","/web/img/mindhub.jpg", "/api/test").permitAll()
+                       .antMatchers("/web/css/style.css","/web/index.html", "/web/img/Mindhub-logo.png", "/web/js/index.js", "/web/img/avila.jpg", "/web/img/favicon.ico", "/web/img/avila.jpg", "/api/login", "/api/logout","/web/img/mindhub.jpg", "/api/test", "/api/clients/current/cards/delete/{id}").permitAll()
                        .antMatchers(HttpMethod.POST,"/api/clients","/web/js/transfers.js").permitAll()
                        .antMatchers("/web/css/cards.css","/web/accounts.html", "/web/js/accounts.js","web/js/account.js", "/web/cards.html", "/web/js/cards.js", "/api/clients/current", "/api/clients/current/accounts",
                                "/api/clients/current/cards", "/web/create-cards.html","/web/js/create-cards.js","/web/js/account.js","/api/accounts/{id}","/api/transactions","/api/loans","/web/loan-application.html","/web/js/loan-application.js").hasAuthority("CLIENT")

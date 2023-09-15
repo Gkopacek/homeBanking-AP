@@ -30,7 +30,7 @@ public class TransactionController {
     @Autowired
     TransactionService transactionService;
 
-    @RequestMapping(value = "/transactions", method = RequestMethod.POST)
+    @PostMapping(value = "/transactions")
     @Transactional
     public ResponseEntity<Object> createDebitTransaction(
             @RequestParam String fromAccountNumber, @RequestParam String toAccountNumber,

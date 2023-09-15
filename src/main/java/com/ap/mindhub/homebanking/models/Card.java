@@ -1,10 +1,11 @@
 package com.ap.mindhub.homebanking.models;
 
+import com.ap.mindhub.homebanking.utils.CardUtils;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.*;
+
 
 
 @Entity
@@ -19,6 +20,7 @@ public class Card {
     private int cvv;
     private LocalDate thruDate;
     private LocalDate fromDate;
+    private boolean active;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="client_id")
@@ -36,17 +38,21 @@ public class Card {
         this.thruDate = thruDate;
         this.fromDate = fromDate;
         this.color = color;
+        this.active = true;
     }
 
     public Card(Client client , CardType type, CardColor color) {
         this.cardHolder = client.getFirstName() + " " + client.getLastName();
         this.type = type;
-        this.number = cardNumberGen();
-        this.cvv =  (int) ((Math.random() * (999 - 001)) + 001);
+        this.number = CardUtils.getCardNumber();
+        this.cvv = CardUtils.getCvv();
         this.thruDate = LocalDate.now().plusYears(5);
         this.fromDate = LocalDate.now();
         this.color = color;
+        this.active = true;
     }
+
+
 
     public long getId() {
         return id;
@@ -116,28 +122,13 @@ public class Card {
         this.color = color;
     }
 
-    public String cardNumberGen(){
-        List<String> numbers = new ArrayList<>();
-
-        Random random = new Random();
-
-        for(int i=0; i<4; i++ ){
-            if(i!=0){
-                numbers.add("-"+String.format("%04d",random.nextInt(10000)));
-            }else{
-                numbers.add(String.format("%04d",random.nextInt(10000)));
-            }
-
-        }
-        String concatNumber = "";
-        for(String number: numbers){
-            concatNumber += number;
-
-        }
-        return concatNumber;
+    public boolean isActive() {
+        return active;
     }
 
-
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }
 
 

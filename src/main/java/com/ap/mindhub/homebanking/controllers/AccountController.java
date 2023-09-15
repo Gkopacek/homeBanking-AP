@@ -33,12 +33,12 @@ public class AccountController {
     AccountService accountService;
 
 
-    @RequestMapping("/accounts")
+    @GetMapping("/accounts")
     public List<AccountDTO> getAccounts(){
         return accountService.getAllAccounts();
     }
 
-    @RequestMapping("/accounts/{id}")
+    @GetMapping("/accounts/{id}")
     public AccountDTO getAccount(@PathVariable Long id){
 
         return accountService.findById(id);

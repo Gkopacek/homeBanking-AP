@@ -1,6 +1,7 @@
 package com.ap.mindhub.homebanking.models;
 
-import com.ap.mindhub.homebanking.repositories.AccountRepository;
+
+import com.ap.mindhub.homebanking.repositories.ClientRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -13,28 +14,28 @@ import static org.hamcrest.Matchers.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class AccountRepositoryTest {
+public class ClientRepositoryTest {
 
     @Autowired
-    AccountRepository accountRepository;
+    ClientRepository clientRepository;
 
     @Test
-    public void existAccounts(){
+    public void existClients(){
 
-        List<Account> accounts = accountRepository.findAll();
+        List<Client> clients = clientRepository.findAll();
 
-        assertThat(accounts,is(not(empty())));
+        assertThat(clients,is(not(empty())));
 
     }
 
     @Test
+    public void nameIsNotNull(){
 
-    public void balanceIsPositive(){
+        List<Client> clients = clientRepository.findAll();
 
-        List<Account> Accounts = accountRepository.findAll();
-
-        assertThat(Accounts, hasItem(hasProperty("balance", not(lessThan(0)))));
+        assertThat(clients, hasItem(hasProperty("firstName", notNullValue())));
 
     }
+
 
 }

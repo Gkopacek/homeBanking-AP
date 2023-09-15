@@ -38,13 +38,13 @@ public class ClientController {
     //Definir un método público que retorne List<Client> (puedes llamarlo getClients)
     //
 
-    @RequestMapping("/clients")
+    @GetMapping("/clients")
     public List<ClientDTO> getClients(){
         return clientService.getAllClients();
     }
 
 
-    @RequestMapping(path = "/clients", method = RequestMethod.POST)
+    @PostMapping(path = "/clients")
 
     public ResponseEntity<Object> register(
 
@@ -99,12 +99,12 @@ public class ClientController {
 
 
 
-    @RequestMapping("/clients/{id}")
+    @GetMapping("/clients/{id}")
     public ClientDTO getClient(@PathVariable Long id){
         return clientService.findById(id);
     }
 
-    @RequestMapping("/clients/current")
+    @GetMapping("/clients/current")
     public ClientDTO getAuthClient(Authentication authentication){
         if(authentication != null){
             Client client = clientService.findByEmail(authentication.getName());
